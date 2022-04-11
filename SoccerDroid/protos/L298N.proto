@@ -1,0 +1,137 @@
+ # Created by Raghav Hariharan z5162972
+ # A Webots model for the L298N Motor Driver
+
+ PROTO L298N [
+    field SFVec3f    translation      0 0 0
+    field SFRotation rotation         0 0 1 0
+    field SFFloat    bodyMass         0.026
+    field SFColor    heatsinkColor    0.1 0.1 0.1
+    field SFColor    pcbColor         1 0 0
+    field SFColor    screwColor       0 0 1
+    field SFColor    CapacitorColor   0.5 0.5 0.5
+    field SFColor    black            0 0 0
+    field SFString   name             "L298N"
+  ]
+  {
+    Solid {
+      translation IS translation
+      rotation IS rotation
+      
+      children [
+        
+        # PCB
+        Transform {
+          translation 0 0 -0.01032
+          children [
+            DEF PCB Shape {
+              appearance Appearance {
+                material Material { diffuseColor IS pcbColor }
+              }
+              geometry Box { size 0.043 0.043 0.00236 }
+            }
+          ]
+        }
+
+        # HEAT_SINK
+        Transform {
+          translation 0 0.014 0.00118
+          children [
+            DEF HEAT_SINK Shape {
+              appearance Appearance {
+                material Material { diffuseColor IS heatsinkColor }
+              }
+              geometry Box { size 0.02 0.015 0.02064 }
+            }
+          ]
+        }
+
+        # SCREW_CONNECTORS
+        Transform {
+          translation -0.017 -0.005 -0.0056
+          children [
+            DEF SHORT_SCREW_CONNECTOR Shape {
+              appearance Appearance {
+                material Material { diffuseColor IS screwColor }
+              }
+              geometry Box { size 0.008 0.015  0.008 }
+            }
+          ]
+        }
+
+        Transform {
+          translation 0.017 -0.005 -0.0056
+          children [ USE SHORT_SCREW_CONNECTOR ]
+        }
+
+        Transform {
+          translation -0.005 -0.017 -0.0056
+          rotation     0 0 1 1.5708
+          children [
+            DEF LONG_SCREW_CONNECTOR Shape {
+              appearance Appearance {
+                material Material { diffuseColor IS screwColor }
+              }
+              geometry Box { size 0.008 0.02  0.008 }
+            }
+          ]
+        }
+
+        # CAPACITORS
+        Transform {
+          translation -0.009 -0.002 -0.00314
+          children [
+            DEF CAPACITOR Shape {
+              appearance Appearance {
+                material Material { diffuseColor IS CapacitorColor }
+              }
+              geometry Cylinder { 
+                height 0.012
+                radius 0.0035
+               }
+            }
+          ]
+        }
+
+        Transform {
+          translation 0.009 -0.01 -0.00314
+          children [ USE CAPACITOR ]
+        }
+
+      # MISC CONNECTORS
+        Transform {
+          translation -0.017 0.012 -0.00814 
+          children [
+            DEF MISC Shape {
+              appearance Appearance {
+                material Material { diffuseColor IS black }
+              }
+              geometry Box { size 0.005 0.012  0.002 }
+            }
+          ]
+        }
+
+        Transform {
+          translation 0.017 0.012 -0.00814 
+          children [ USE MISC ]
+        }
+
+        Transform {
+          translation 0.013 -0.017 -0.00814  
+          rotation     0 0 1 1.5708 
+          children [ USE MISC ]
+        }
+
+      ]
+
+      boundingObject Box {
+        size 0.043 0.043 0.023
+      }
+
+      physics Physics {
+        mass IS bodyMass
+        density -1
+      }
+
+      name IS name
+    }
+  }

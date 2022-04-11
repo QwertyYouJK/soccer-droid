@@ -1,0 +1,380 @@
+#VRML_SIM R2022a utf8
+# Component:    Motor PROTO
+# Author:       Janzen Choi (z5208868)
+# Last Update:  28/03/2022
+
+# Constants
+PROTO Motor [
+  
+  # Name
+  field SFString    motorName       "motor"
+  
+  # Motor Parameters
+  field SFFloat     shaftHeight     0.03            # change me
+  field SFVec3f     shaftOffset     0.02 0.015 0    # second value = shaftHeight/2
+  field SFVec3f     boundingBox     0.065 0.022 0.022
+  field SFFloat     motorMass       0.029
+  
+  # Pose
+  field SFVec3f     translation     0 0 0.3
+  field SFRotation  rotation        0 0 1 0
+  
+  # Colours
+  field SFColor     motorColour     0.9 0.9 0.1     # change me
+  field SFColor     darkGrey       0.1 0.1 0.1
+  field SFColor     white           1.0 1.0 1.0
+  field SFColor     silver          0.7 0.7 0.7
+]
+
+# Design
+{
+  DEF MOTOR Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      
+      # Prismic cover of the main body
+      Transform {
+        translation 0.0125 0 0
+        children [
+          DEF MOTOR_COVER_PRISM SolidRoundedBox {
+            borderRadius 0.0015
+            appearance PBRAppearance {
+              baseColor IS motorColour
+              roughness 1
+              metalness 0
+            }
+            size 0.035 0.022 0.022
+            physics Physics {
+            density -1
+            mass 0.001
+            }
+          }
+        ]
+      }
+      
+      # First small petrusion of prismic section
+      Transform {
+        translation 0.03 0 0
+        children [
+          DEF MOTOR_SMALL_PETRUSION_1 Shape {
+            appearance PBRAppearance {
+              baseColor IS motorColour
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.005 0.005 0.005
+            }
+          }
+        ]
+      }
+      
+      # Second small petrusion of prismic section
+      Transform {
+        translation 0.005 0 0
+        rotation 1.57 0 0 1.57
+        children [
+          DEF MOTOR_SMALL_PETRUSION_2 Shape {
+            appearance PBRAppearance {
+              baseColor IS motorColour
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              radius 0.003
+              height 0.023
+            }
+          }
+        ]
+      }
+      
+      # Barrel section of the cover
+      Transform {
+        translation -0.0115 0 0
+        rotation 0 0 0 1.57
+        children [
+          DEF MOTOR_COVER_BARREL Shape {
+            appearance PBRAppearance {
+              baseColor IS motorColour
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              radius 0.01
+              height 0.013
+            }
+          }
+        ]
+      }
+      
+      # Body of the motor
+      Transform {
+        translation -0.02325 0 0
+        rotation 0 0 0 1.57
+        children [
+          DEF MOTOR_BODY Shape {
+            appearance PBRAppearance {
+              baseColor IS silver
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              radius 0.0095
+              height 0.0105
+            }
+          }
+        ]
+      }
+      
+      # Top of the motor
+      Transform {
+        translation -0.03 0 0
+        rotation 0 0 0 1.57
+        children [
+          DEF MOTOR_TOP Shape {
+            appearance PBRAppearance {
+              baseColor IS darkGrey
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              radius 0.009
+              height 0.003
+            }
+          }
+        ]
+      }
+      
+      # Tip of the motor
+      Transform {
+        translation -0.0325 0 0
+        rotation 0 0 0 1.57
+        children [
+          DEF MOTOR_TIP Shape {
+            appearance PBRAppearance {
+              baseColor IS darkGrey
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              radius 0.004
+              height 0.0005
+            }
+          }
+        ]
+      }
+      
+      # First part of the motor cap
+      Transform {
+        translation -0.032 0 0
+        rotation 0 0 0 1.57
+        children [
+          DEF MOTOR_CAP_1 Shape {
+            appearance PBRAppearance {
+              baseColor IS white
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              radius 0.006
+              height 0.001
+            }
+          }
+        ]
+      }
+      
+      # Second part of the motor cap
+      Transform {
+        translation -0.032 0 0
+        children [
+          DEF MOTOR_CAP_2 Shape {
+            appearance PBRAppearance {
+              baseColor IS white
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.001 0.023 0.006
+            }
+          }
+        ]
+      }
+      
+      # Third part of the motor cap
+      Transform {
+        translation -0.0253 0.011 0
+        children [
+          DEF MOTOR_CAP_3 Shape {
+            appearance PBRAppearance {
+              baseColor IS white
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.0126 0.001 0.006
+            }
+          }
+        ]
+      }
+      
+      # Fourth part of the motor cap
+      Transform {
+        translation -0.015 0.011 0
+        children [
+          DEF MOTOR_CAP_4 Shape {
+            appearance PBRAppearance {
+              baseColor IS white
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.008 0.001 0.008
+            }
+          }
+        ]
+      }
+      
+      # Fifth part of the motor cap
+      Transform {
+        translation -0.0253 -0.011 0
+        children [
+          DEF MOTOR_CAP_5 Shape {
+            appearance PBRAppearance {
+              baseColor IS white
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.0126 0.001 0.006
+            }
+          }
+        ]
+      }
+      
+      # Sixth part of the motor cap
+      Transform {
+        translation -0.015 -0.011 0
+        children [
+          DEF MOTOR_CAP_6 Shape {
+            appearance PBRAppearance {
+              baseColor IS white
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.008 0.001 0.008
+            }
+          }
+        ]
+      }
+      
+      # Motor clip for the cap
+      Transform {
+        translation -0.015 0 0
+        children [
+          DEF MOTOR_CAP_CLIP Shape {
+            appearance PBRAppearance {
+              baseColor IS motorColour
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.002 0.024 0.003
+            }
+          }
+        ]
+      }
+    
+      # First Screw
+      Transform {
+        translation -0.002 0 0.007
+        rotation 1.57 0 0 1.57
+        children [
+          DEF MOTOR_SCREW_1 Shape {
+            appearance PBRAppearance {
+              baseColor IS silver
+              roughness 0.3
+              metalness 0.7
+            }
+            geometry Cylinder {
+              radius 0.002
+              height 0.0225
+            }
+          }
+        ]
+      }
+      
+      # Second Screw
+      Transform {
+        translation -0.002 0 -0.007
+        rotation 1.57 0 0 1.57
+        children [
+          DEF MOTOR_SCREW_2 Shape {
+            appearance PBRAppearance {
+              baseColor IS silver
+              roughness 0.3
+              metalness 0.7
+            }
+            geometry Cylinder {
+              radius 0.002
+              height 0.0225
+            }
+          }
+        ]
+      }
+      
+      # Motor shaft cover
+      Transform {
+        translation 0.02 0 0
+        rotation 1.57 0 0 1.57
+        children [
+          DEF MOTOR_SHAFT_COVER Shape {
+            appearance PBRAppearance {
+              baseColor IS white
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              radius 0.002
+              height 0.023
+            }
+          }
+        ]
+      }
+      
+      # Motor shaft visual
+      Transform {
+        translation IS shaftOffset
+        rotation 1.57 0 0 1.57
+        children [
+          DEF MOTOR_SHAFT_VISUAL Shape {
+            appearance PBRAppearance {
+              baseColor IS white
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              radius 0.0018
+              height IS shaftHeight
+            }
+          }
+        ]
+      }
+    ]
+    
+    # Bounding box (for collision)
+    boundingObject Box {
+      size IS boundingBox
+    }
+    
+    # Physics (for mass)
+    physics Physics {
+      density -1
+      mass IS motorMass
+    }
+    
+    # Naming
+    name IS motorName
+  }
+}

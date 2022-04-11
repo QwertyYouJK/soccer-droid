@@ -1,0 +1,430 @@
+#VRML_SIM R2022a utf8
+# Component:    Arduino PROTO
+# Author:       Janzen Choi (z5208868)
+# Last Update:  17/02/2022
+
+# Constants
+PROTO Arduino [
+  
+  # Body
+  field SFFloat     bodyMass        0.025
+  field SFVec3f     boundingBox     0.072 0.05 0.012
+  
+  # Pose
+  field SFVec3f     translation     0 0 0.3
+  field SFRotation  rotation        0 0 1 0
+  
+  # Colours
+  field SFColor     blueGreen       0.1 0.3 0.6
+  field SFColor     black           0 0 0
+  field SFColor     silver          0.7 0.7 0.7
+  field SFColor     crimson         0.7 0.1 0.2
+  
+  # Names
+  # field SFString    controllerName  "arduino"
+  field SFString    arduinoName     "arduino"
+]
+
+# Design
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      
+      # Main body
+      Transform {
+        translation 0 0 -0.005
+        children [
+          DEF ARDUINO_MAIN_BODY Shape {
+            appearance PBRAppearance {
+            baseColor IS blueGreen
+            roughness 1
+            metalness 0
+            }
+            geometry Box {
+              size 0.07 0.05 0.002
+            }
+          }
+        ]
+      }
+      
+      # Body petrusion
+      Transform {
+        translation -0.036 0.002 -0.005
+        children [
+          DEF ARDUINO_MAIN_BODY_PETRUSION Shape {
+            appearance PBRAppearance {
+            baseColor IS blueGreen
+            roughness 1
+            metalness 0
+            }
+            geometry Box {
+              size 0.002 0.04 0.002
+            }
+          }
+        ]
+      }
+      
+      # Power USB
+      Transform {
+        translation 0.033 -0.009 0.0005
+        children [
+          DEF ARDUINO_POWER_USB Shape {
+            appearance PBRAppearance {
+              baseColor IS silver
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.015 0.012 0.009
+            }
+          }
+        ]
+      }
+      
+      # Power jack
+      Transform {
+        translation 0.0345 0.018 -0.0005
+        children [
+          DEF ARDUINO_POWER_JACK Shape {
+            appearance PBRAppearance {
+              baseColor IS black
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.003 0.007 0.007
+            }
+          }
+        ]
+      }
+      
+      # Power barrel
+      Transform {
+        translation 0.029 0.018 -0.0005
+        rotation 0 0 0 1.57
+        children [
+          DEF ARDUINO_POWER_BARREL Shape {
+            appearance PBRAppearance {
+              baseColor IS black
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              radius 0.0035
+              height 0.012
+            }
+          }
+        ]
+      }
+      
+      # Voltage regulator
+      Transform {
+        translation 0.028 0.008 -0.0030
+        children [
+          DEF ARDUINO_VOLTAGE_REGULATOR Shape {
+            appearance PBRAppearance {
+              baseColor IS black
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.0035 0.005 0.002
+            }
+          }
+        ]
+      }
+      
+      # Crystal oscillator
+      Transform {
+        translation 0.02 0.001 -0.0028
+        children [
+          DEF ARDUINO_CRYSTAL_OSCILLATOR Shape {
+            appearance PBRAppearance {
+              baseColor IS silver
+              roughness 0.5
+              metalness 0.5
+            }
+            geometry Box {
+              size 0.007 0.003 0.0025
+            }
+          }
+        ]
+      }
+      
+      # Capacitor 1
+      Transform {
+        translation 0.018 0.016 -0.0014
+        children [
+          DEF ARDUINO_CAPACITOR_1 Shape {
+            appearance PBRAppearance {
+              baseColor IS silver
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              radius 0.003
+              height 0.005
+            }
+          }
+        ]
+      }
+      
+      # Capacitor base 1
+      Transform {
+        translation 0.018 0.016 -0.0032
+        children [
+          DEF ARDUINO_CAPACITOR_BASE_1 Shape {
+            appearance PBRAppearance {
+              baseColor IS black
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.007 0.007 0.0015
+            }
+          }
+        ]
+      }
+      
+      # Capacitor 2
+      Transform {
+        translation 0.01 0.016 -0.0014
+        children [
+          DEF ARDUINO_CAPACITOR_2 Shape {
+            appearance PBRAppearance {
+              baseColor IS silver
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              radius 0.003
+              height 0.005
+            }
+          }
+        ]
+      }
+      
+      # Capacitor Base 2
+      Transform {
+        translation 0.01 0.016 -0.0032
+        children [
+          DEF ARDUINO_CAPACITOR_BASE_2 Shape {
+            appearance PBRAppearance {
+              baseColor IS black
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.007 0.007 0.0015
+            }
+          }
+        ]
+      }
+      
+      # Analog and adjacent pins
+      Transform {
+        translation -0.012 0.022 -0.0005
+        children [
+          DEF ARDUINO_ANALOG_PINS Shape {
+            appearance PBRAppearance {
+              baseColor IS black
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.042 0.002 0.007
+            }
+          }
+        ]
+      }
+      
+      # Microcontroller
+      Transform {
+        translation -0.012 0.008 -0.0015
+        children [
+          DEF ARDUINO_MICROCONTROLLER Shape {
+            appearance PBRAppearance {
+              baseColor IS black
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.038 0.008 0.004
+            }
+          }
+        ]
+      }
+      
+      # Microcontroller Pins 1
+      Transform {
+        translation -0.012 0.0125 -0.0022
+        children [
+          DEF ARDUINO_MICROCONTROLLER_PINS_1 Shape {
+            appearance PBRAppearance {
+              baseColor IS silver
+              roughness 0.5
+              metalness 0.5
+            }
+            geometry Box {
+              size 0.036 0.0012 0.0038
+            }
+          }
+        ]
+      }
+      
+      # Microcontroller Pins 2
+      Transform {
+        translation -0.012 0.0035 -0.0022
+        children [
+          DEF ARDUINO_MICROCONTROLLER_PINS_2 Shape {
+            appearance PBRAppearance {
+              baseColor IS silver
+              roughness 0.5
+              metalness 0.5
+            }
+            geometry Box {
+              size 0.036 0.0012 0.0038
+            }
+          }
+        ]
+      }
+      
+      # Digital and adjacent pins
+      Transform {
+        translation -0.009 -0.022 -0.0005
+        children [
+          DEF ARDUINO_DIGITAL_PINS Shape {
+            appearance PBRAppearance {
+              baseColor IS black
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.048 0.002 0.007
+            }
+          }
+        ]
+      }
+      
+      # ISCP base
+      Transform {
+        translation -0.033 -0.0015 -0.0032
+        children [
+          DEF ARDUINO_ICSP_BASE Shape {
+            appearance PBRAppearance {
+              baseColor IS black
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.005 0.008 0.002
+            }
+          }
+        ]
+      }
+      
+      # ISCP pins
+      Transform {
+        translation -0.033 -0.0015 -0.002
+        children [
+          DEF ARDUINO_ICSP_PINS Shape {
+            appearance PBRAppearance {
+              baseColor IS silver
+              roughness 0.5
+              metalness 0.5
+            }
+            geometry Box {
+              size 0.003 0.006 0.005
+            }
+          }
+        ]
+      }
+      
+      # AREF base
+      Transform {
+        translation 0.016 -0.017 -0.0032
+        children [
+          DEF ARDUINO_ICSP_BASE Shape {
+            appearance PBRAppearance {
+              baseColor IS black
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.008 0.005 0.002
+            }
+          }
+        ]
+      }
+      
+      # AREF pins
+      Transform {
+        translation 0.016 -0.017 -0.002
+        children [
+          DEF ARDUINO_AREF_PINS Shape {
+            appearance PBRAppearance {
+              baseColor IS silver
+              roughness 0.5
+              metalness 0.5
+            }
+            geometry Box {
+              size 0.006 0.003 0.005
+            }
+          }
+        ]
+      }
+      
+      # Reset base
+      Transform {
+        translation 0.03 -0.02 -0.0032
+        children [
+          DEF ARDUINO_RESET_BASE Shape {
+            appearance PBRAppearance {
+              baseColor IS silver
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.006 0.006 0.002
+            }
+          }
+        ]
+      }
+      
+      # Reset button
+      Transform {
+        translation 0.03 -0.02 -0.002
+        children [
+          DEF ARDUINO_RESET_BASE Shape {
+            appearance PBRAppearance {
+              baseColor IS crimson
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              radius 0.0027
+              height 0.004
+            }
+          }
+        ]
+      }
+    ]
+    
+    # Bounding box (for collision)
+    boundingObject Box {
+      size IS boundingBox
+    }
+    
+    # Physics (for mass)
+    physics Physics {
+      density -1
+      mass IS bodyMass
+    }
+    
+    # Naming
+    name IS arduinoName
+    # controller IS controllerName
+  }
+}

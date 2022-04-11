@@ -1,0 +1,66 @@
+#VRML_SIM R2022a utf8
+# Created by Tanvee Islam (z5206859)
+# A Webots model for a AA battery
+
+PROTO battery [
+	field SFVec3f 		translation 	0 0 0
+	field SFRotation 	rotation 		0 0 1 0
+	field SFColor 		batteryColor	0.8 0.1 0.1
+	field SFFloat 		bodyMass		0.015
+	field SFString 		name			"battery"
+	
+]
+{
+	Solid {
+		translation IS translation
+		rotation IS rotation
+
+		children [
+			# Battery Body
+			Transform {
+				translation 0 0 0
+				children [
+					DEF BATTERY Shape {
+						appearance Appearance {
+							material Material { diffuseColor IS batteryColor }
+						}
+						geometry Cylinder {
+							height 0.05
+							radius 0.007
+						}
+
+					}
+				]
+			}
+
+			# Positive Terminal
+			Transform {
+				translation 0.0 0.0 0.0255
+				children [
+					DEF TERMINAL Shape {
+						appearance Appearance {
+							material Material { diffuseColor 1 1 1 }
+						}
+						geometry Cylinder {
+							height 0.001
+							radius 0.0035
+						}
+					}
+				]
+			}
+
+		]
+
+		boundingObject Cylinder {
+			height 0.051
+			radius 0.007
+		}
+
+		physics Physics {
+			mass IS bodyMass
+			density -1
+		}
+
+		name IS name
+	}
+}

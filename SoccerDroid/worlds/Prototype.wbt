@@ -1,0 +1,533 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0.5368424669612172 0.4900377850683108 0.686777354658945 4.440784901838423
+  position 0.04909601549589723 1.0799969047594906 -2.0165809267620114
+}
+TexturedBackground {
+}
+RectangleArena {
+  rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931957
+  name "soccer field"
+  floorSize 1.2 1.8
+  floorTileSize 0.2 0.2
+  floorAppearance Parquetry {
+    textureTransform TextureTransform {
+    }
+  }
+}
+Solid {
+  translation 0.801526 0.05 -0.532734
+  rotation 0 1 0 -0.785395307179586
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 0.4
+        }
+      }
+      geometry Box {
+        size 0.2 0.1 0.01
+      }
+    }
+  ]
+  name "wall(4)"
+  model "2"
+  boundingObject Box {
+    size 0.2 0.1 0.01
+  }
+  recognitionColors [
+    0 0 0.4
+  ]
+}
+Solid {
+  translation 0.829815 0.05 0.527923
+  rotation 0 1 0 -2.3561953071795863
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 0.4
+        }
+      }
+      geometry Box {
+        size 0.2 0.1 0.01
+      }
+    }
+  ]
+  name "wall(3)"
+  model "2"
+  boundingObject Box {
+    size 0.2 0.1 0.01
+  }
+  recognitionColors [
+    0 0 0.4
+  ]
+}
+Solid {
+  translation -0.817733 0.05 0.520848
+  rotation 0 1 0 -0.785395307179586
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 0.4
+        }
+      }
+      geometry Box {
+        size 0.2 0.1 0.01
+      }
+    }
+  ]
+  name "wall(1)"
+  model "2"
+  boundingObject Box {
+    size 0.2 0.1 0.01
+  }
+  recognitionColors [
+    0 0 0.4
+  ]
+}
+PointLight {
+  attenuation 0 0 1
+  intensity 2
+  location 0.5 1 0.5
+  castShadows TRUE
+}
+PointLight {
+  attenuation 0 0 1
+  intensity 2
+  location -0.5 1 0.5
+  castShadows TRUE
+}
+PointLight {
+  attenuation 0 0 1
+  intensity 2
+  location 0.5 1 -0.5
+  castShadows TRUE
+}
+PointLight {
+  attenuation 0 0 1
+  intensity 2
+  location -0.5 1 -0.5
+  castShadows TRUE
+}
+Solid {
+  translation 0.666725 0.349914 0.228227
+  rotation 0 0 1 3.645991943274397e-19
+  children [
+    DEF BALL_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.75 0
+        roughness 1
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.0335
+        subdivision 5
+      }
+    }
+  ]
+  name "ball"
+  model "1"
+  boundingObject USE BALL_SHAPE
+  physics Physics {
+    density -1
+    mass 0.0577
+    centerOfMass [
+      0 -0.0001 0
+    ]
+    inertiaMatrix [
+      2.3e-05 2.3e-05 2.3e-05
+      0 0 0
+    ]
+    damping Damping {
+      linear 0.1
+      angular 0.25
+    }
+  }
+  recognitionColors [
+    1 0.75 0
+  ]
+}
+Solid {
+  translation -0.824806 0.05 -0.518592
+  rotation 0 1 0 0.785398
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 0.4
+        }
+      }
+      geometry Box {
+        size 0.2 0.1 0.01
+      }
+    }
+  ]
+  name "wall"
+  model "2"
+  boundingObject Box {
+    size 0.2 0.1 0.01
+  }
+  recognitionColors [
+    0 0 0.4
+  ]
+}
+Solid {
+  translation 0.678439 0.265326 0.235072
+  rotation 0.9407369503883568 0.2811439851733101 -0.18966298999774317 -1.7437853071795866
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.4 0 0.4
+        }
+      }
+      geometry Box {
+        size 0.2 0.1 0.01
+      }
+    }
+  ]
+  name "wall(2)"
+  boundingObject Box {
+    size 0.2 0.1 0.01
+  }
+}
+Robot {
+  translation 0.000203738 0.0316596 -0.369769
+  rotation 0.00038104417122903267 0.9999944493654417 0.0033099914874040424 3.14125
+  children [
+    DEF googly_left Solid {
+      translation 0.013 0.055 -0.04
+      rotation 1 0 0 1.5708
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughness 1
+            metalness 0
+          }
+          geometry Capsule {
+            height 0.01
+            radius 0.012
+            subdivision 36
+          }
+        }
+      ]
+      name "solid(1)"
+    }
+    DEF googly_right Solid {
+      translation -0.013 0.055 -0.04
+      rotation 1 0 0 1.5708
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughness 1
+            metalness 0
+          }
+          geometry Capsule {
+            height 0.01
+            radius 0.012
+            subdivision 36
+          }
+        }
+      ]
+      name "solid(2)"
+    }
+    DEF SPHERE Hinge2Joint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 -0.014 0.075
+      }
+      jointParameters2 JointParameters {
+      }
+      device [
+        RotationalMotor {
+        }
+      ]
+      device2 [
+        RotationalMotor {
+        }
+      ]
+      endPoint Solid {
+        translation 0 -0.014 0.075
+        rotation 0 1 0 0
+        children [
+          DEF SPHERE Shape {
+            appearance PBRAppearance {
+              baseColor 0.666667 0.662745 0.678431
+              roughness 1
+            }
+            geometry Sphere {
+              radius 0.015
+              subdivision 5
+            }
+          }
+        ]
+        boundingObject USE SPHERE
+        physics Physics {
+        }
+      }
+    }
+    ultrasonic {
+      translation 0 0.05 -0.04
+      rotation 1 0 0 3.14159
+    }
+    DEF PUSHBUTTON pushButton {
+      translation 0 0.083 0.079986
+      rotation -1 0 0 1.571
+    }
+    DEF SERVO Servo {
+      translation 0 -3.18531e-05 -0.02
+      rotation -1 0 0 1.57
+    }
+    DEF MOTORdown Motor {
+      motorName "motordown"
+      translation -0.03 0.0100128 0.03
+      rotation -0.5773099332476769 0.5773129332473299 0.577427933234033 2.09428
+    }
+    DEF MOTORup Motor {
+      motorName "motorup"
+      translation 0.03 0.0100128 0.03
+      rotation 0.5773879333287306 0.5773889333286152 -0.5772739333418941 2.09451
+    }
+    L298N {
+      translation -0.003 0.05 0.069992
+      rotation -0.9999999999999999 0 0 1.571
+    }
+    batteryholder {
+      translation 3.65403e-08 0.05 0.03
+      rotation -0.5773892665731799 0.5773892665731799 0.5772722665191624 2.09451
+      caseColorLight 0.074 0.074 0.074
+      caseColorDark 0.074 0.074 0.074
+    }
+    battery {
+      translation -3.30588e-07 0.057 -0.008
+      rotation 0 1 0 1.5708
+    }
+    battery {
+      translation -2.93856e-07 0.057 0.0075
+      rotation 0 1 0 1.5708
+      name "battery(3)"
+    }
+    battery {
+      translation -4.04052e-07 0.057 -0.0225
+      rotation 0 1 0 1.5708
+      name "battery(4)"
+    }
+    battery {
+      translation 3.67323e-08 0.057 0.023
+      rotation 0 1 0 1.5708
+      name "battery(5)"
+    }
+    battery {
+      translation -1.46928e-07 0.057 0.0375
+      rotation 0 1 0 1.5708
+      name "battery(1)"
+    }
+    Arduino {
+      translation -9.23118e-08 0.0250143 0.069996
+      rotation -1 -2.39745e-09 -1.84784e-06 1.571
+    }
+    DEF pixy2Cam Camera {
+      translation 1.2928e-07 0.070931 -0.0395763
+      rotation 0.6215149473343795 -0.6215149473343795 -0.4769049595882678 -2.2515953071795867
+      children [
+        Transform {
+          rotation -1.6835523390902728e-06 1.6835523390902728e-06 -0.9999999999971658 1.570796326797731
+          children [
+            Transform {
+              translation 0 -0.006 -0.018
+              children [
+                Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 0 0.1 0.4
+                    }
+                  }
+                  geometry Box {
+                    size 0.04 0.002 0.045
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation 0 -0.003 -0.003
+              children [
+                Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 1 1 1
+                    }
+                  }
+                  geometry Box {
+                    size 0.01 0.004 0.015
+                  }
+                }
+              ]
+            }
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0 0 0
+                }
+              }
+              geometry Cylinder {
+                height 0.003
+                radius 0.003
+              }
+            }
+          ]
+        }
+      ]
+      name "pixy2Cam"
+      fieldOfView 1
+      width 300
+      height 200
+      near 0.005
+      recognition Recognition {
+      }
+    }
+    DEF leftWheel HingeJoint {
+      jointParameters HingeJointParameters {
+        position 8.835259663627232e-07
+        anchor -0.056 0.013 0.01
+      }
+      device [
+        RotationalMotor {
+          name "leftWheelMotor"
+        }
+      ]
+      endPoint DEF LARGE_WHEEL1 LargeWheel {
+        wheelName "wheel1"
+        translation -0.056 0.013000008835264735 0.009999988514166341
+        rotation -0.00039765393711939574 0.9999998418713338 -0.00039765393711949494 1.5708
+      }
+    }
+    DEF rightWheel HingeJoint {
+      jointParameters HingeJointParameters {
+        position 1.167149240175598e-06
+        anchor 0.056 0.013 0.01
+      }
+      device [
+        RotationalMotor {
+          name "rightWheelMotor"
+        }
+      ]
+      endPoint DEF LARGE_WHEEL2 LargeWheel {
+        wheelName "wheel2"
+        translation 0.056 0.013 0.01
+        rotation 0.5789052656373513 -0.5742285298402672 0.5789043866951026 4.184099934368875
+      }
+    }
+    DEF Chassis Group {
+      children [
+        DEF Floor_2(up) Transform {
+          translation 0.017 0.035 0
+          rotation 0.1294310367603611 0.12942803675950906 0.9831052792166856 1.58784
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0.5
+                transparency 0.75
+                roughness 1
+                metalness 0
+              }
+              geometry TexturedParallelepiped {
+                size 0.09 0.11 0.07
+                angles 0 1.3 0
+              }
+            }
+          ]
+        }
+        DEF Floor_2(down) Transform {
+          translation -0.036 0.035 0.014
+          rotation 0.5773489358556708 0.5773509358554485 0.5773509358554485 2.0944
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0.5
+                transparency 0.75
+                roughness 1
+                metalness 0
+              }
+              geometry TexturedParallelepiped {
+                size 0.09 0.11 0.07
+                angles 0 1.3 0
+              }
+            }
+          ]
+        }
+        DEF Floor_3(down) Transform {
+          translation -0.006 0.035 -0.007
+          rotation -0.44721487003110416 -0.44721387003139484 0.7745957748881706 1.82347
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0.5
+                transparency 0.75
+                roughness 1
+                metalness 0
+              }
+              geometry TexturedParallelepiped {
+                size 0.09 0.08 0.09
+                angles 0 0.85 0
+              }
+            }
+          ]
+        }
+        DEF Floor_3(up) Transform {
+          translation 0.006 0.035 -0.006
+          rotation 0.44721212362085194 -0.44721412362140484 0.7745972141184518 -1.823475307179586
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0.5
+                transparency 0.75
+                roughness 1
+                metalness 0
+              }
+              geometry TexturedParallelepiped {
+                size 0.09 0.08 0.09
+                angles 0 0.85 0
+              }
+            }
+          ]
+        }
+        DEF Floor_1 Transform {
+          translation 0 0.035 0.03
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0.5
+                transparency 0.75
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.14 0.09 0.135
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0 0.021 0.03
+        children [
+          Box {
+            size 0.15 0.1 0.16
+          }
+        ]
+      }
+    ]
+  }
+  physics Physics {
+  }
+  controller "ArduinoController"
+}

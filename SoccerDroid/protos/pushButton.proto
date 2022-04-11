@@ -1,0 +1,64 @@
+#VRML_SIM R2022a utf8
+# Component:    Push Button PROTO
+# Author:       Raghav Hariharan (z5162972)
+# Last Update:  25/03/2022
+
+
+PROTO pushButton [
+    field SFVec3f    translation      0 0 0
+    field SFRotation rotation         0 0 1 0
+    field SFFloat    bodyMass         0.005
+    #field SFColor    pcbColor         0 0 1
+    field SFColor    white            1 1 1
+    field SFColor    red            1 0 0 
+    #field SFColor    gold             1 0.843 0
+  ]
+
+  {
+    DEF PUSHBUTTON Solid {
+      translation IS translation
+      rotation IS rotation
+      
+      children [
+        
+        # PCB
+        Transform {
+          translation 0 0 0
+          children [
+            DEF PCB Shape {
+              appearance Appearance {
+                material Material { diffuseColor IS white }
+              }
+              geometry Box { size 0.012 0.012 0.007 }
+            }
+          ]
+        }
+        
+      Transform {
+            translation 0.0 0.0 0.00325
+            children [
+              DEF SMALLHOLE Shape {
+                appearance Appearance {
+                  material Material { diffuseColor IS red }
+                }
+                geometry Cylinder { 
+                  height 0.002
+                  radius 0.004
+                 }
+              }
+            ]
+          }
+
+      ]
+      boundingObject Box {
+        size 0.012 0.012 0.007
+      }
+
+      physics Physics {
+        mass IS bodyMass
+        density -1
+      }
+      
+      name "push_button"
+    }
+  }

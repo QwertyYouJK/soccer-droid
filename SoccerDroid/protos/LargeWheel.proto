@@ -1,0 +1,275 @@
+#VRML_SIM R2022a utf8
+# Component:    Large Wheel PROTO
+# Author:       Janzen Choi (z5208868)
+# Last Update:  28/03/2022
+
+# Constants
+PROTO LargeWheel [
+  
+  # Name
+  field SFString    wheelName       "wheel"
+  
+  # Wheel Parameters
+  field SFFloat     wheelMass       0.1
+  
+  # Pose
+  field SFVec3f     translation     0 0 0.3
+  field SFRotation  rotation        1 0 0 1.57
+  
+  # Colours
+  field SFColor     wheelColour     1.0 1.0 1.0 # change me
+  field SFColor     white           1.0 1.0 1.0
+  field SFColor     darkGrey        0.0 0.0 0.0
+]
+
+# Design
+{
+  DEF LARGE_WHEEL Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      
+      # Body of the wheel
+      Transform {
+        children [
+          DEF LARGE_WHEEL_BODY Shape {
+            appearance PBRAppearance {
+              baseColor IS wheelColour
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              radius 0.02925
+              height 0.029
+              subdivision 24
+            }
+          }
+        ]
+      }
+      
+      # Petrusion of the body of the wheel
+      Transform {
+        children [
+          DEF LARGE_WHEEL_BODY_PETRUSION Shape {
+            appearance PBRAppearance {
+              baseColor IS white
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              radius 0.01
+              height 0.0295
+              subdivision 6
+            }
+          }
+        ]
+      }
+      
+      # Shaft petrusion
+      Transform {
+        children [
+          DEF LARGE_WHEEL_SHAFT_PETRUSION Shape {
+            appearance PBRAppearance {
+              baseColor IS white
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              radius 0.0025
+              height 0.03
+              subdivision 24
+            }
+          }
+        ]
+      }
+      
+      # Screw 1
+      Transform {
+        translation 0.007 0 0
+        children [
+          DEF LARGE_WHEEL_SCREW_1 Shape {
+            appearance PBRAppearance {
+              baseColor IS silver
+              roughness 0.3
+              metalness 0.7
+            }
+            geometry Cylinder {
+              radius 0.0013
+              height 0.0285
+            }
+          }
+        ]
+      }
+      
+      # Screw 2
+      Transform {
+        translation -0.007 0 0
+        children [
+          DEF LARGE_WHEEL_SCREW_2 Shape {
+            appearance PBRAppearance {
+              baseColor IS silver
+              roughness 0.3
+              metalness 0.7
+            }
+            geometry Cylinder {
+              radius 0.0013
+              height 0.0285
+            }
+          }
+        ]
+      }
+      
+      # Screw 3
+      Transform {
+        translation 0 0.007 0
+        children [
+          DEF LARGE_WHEEL_SCREW_3 Shape {
+            appearance PBRAppearance {
+              baseColor IS silver
+              roughness 0.3
+              metalness 0.7
+            }
+            geometry Cylinder {
+              radius 0.0013
+              height 0.0285
+            }
+          }
+        ]
+      }
+      
+      # Screw 4
+      Transform {
+        translation 0 -0.007 0
+        children [
+          DEF LARGE_WHEEL_SCREW_4 Shape {
+            appearance PBRAppearance {
+              baseColor IS silver
+              roughness 0.3
+              metalness 0.7
+            }
+            geometry Cylinder {
+              radius 0.0013
+              height 0.0285
+            }
+          }
+        ]
+      }
+      
+      # Tyre
+      Transform {
+        children [
+          DEF LARGE_WHEEL_TYRE Shape {
+            appearance PBRAppearance {
+              baseColor IS darkGrey
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              radius 0.042
+              height 0.029
+              subdivision 24
+            }
+          }
+        ]
+      }
+      
+      # Main petrusion of tyre
+      Transform {
+        children [
+          DEF LARGE_WHEEL_TYRE_PETRUSION_MAIN Shape {
+            appearance PBRAppearance {
+              baseColor IS darkGrey
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              radius 0.043
+              height 0.018
+              subdivision 24
+            }
+          }
+        ]
+      }
+      
+      # Tyre petrusion 1
+      Transform {
+        rotation 0 0 1 0
+        children [
+          DEF LARGE_WHEEL_TYRE_PETRUSION_1 Shape {
+            appearance PBRAppearance {
+              baseColor IS darkGrey
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.0138 0.082 0.0238
+            }
+          }
+        ]
+      }
+      
+      # Tyre petrusion 2
+      Transform {
+        rotation 0 0 1 1.57
+        children [
+          DEF LARGE_WHEEL_TYRE_PETRUSION_2 Shape {
+            appearance PBRAppearance {
+              baseColor IS darkGrey
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.0138 0.082 0.0238
+            }
+          }
+        ]
+      }
+      
+      # Tyre petrusion 3
+      Transform {
+        rotation 0 0 1 0.785
+        children [
+          DEF LARGE_WHEEL_TYRE_PETRUSION_3 Shape {
+            appearance PBRAppearance {
+              baseColor IS darkGrey
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.0138 0.082 0.0238
+            }
+          }
+        ]
+      }
+      
+      # Tyre petrusion 4
+      Transform {
+        rotation 0 0 1 2.355
+        children [
+          DEF LARGE_WHEEL_TYRE_PETRUSION_4 Shape {
+            appearance PBRAppearance {
+              baseColor IS darkGrey
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.0138 0.082 0.0238
+            }
+          }
+        ]
+      }
+    ]
+    
+    # Bounding box (for collision)
+    boundingObject USE LARGE_WHEEL_TYRE_PETRUSION_MAIN
+    
+    # Physics (for mass)
+    physics Physics {
+      density -1
+      mass IS wheelMass
+    }
+    
+    # Naming
+    name IS wheelName
+  }
+}

@@ -1,0 +1,175 @@
+#VRML_SIM R2022a utf8
+# Component:    Servo PROTO
+# Author:       Janzen Choi (z5208868)
+# Last Update:  28/03/2022
+
+# Constants
+PROTO Servo [
+  
+  # Name
+  field SFString    servoName       "servo"
+  
+  # Servo Parameters
+  field SFFloat     shaftHeight     0.01            # change me
+  field SFVec3f     shaftOffset     -0.006 0.017 0  # second value = 0.012 + shaftHeight/2
+  field SFFloat     servoMass       0.01
+  field SFVec3f     boundingBox     0.03 0.025 0.01
+  
+  # Pose
+  field SFVec3f     translation     0 0 0.3
+  field SFRotation  rotation        1 0 0 1.57
+  
+  # Colours
+  field SFColor     servoColour     0.1 0.3 1.0
+  field SFColor     white           1.0 1.0 1.0
+  field SFColor     darkGrey        0.1 0.1 0.1
+]
+
+# Design
+{
+  DEF SERVO Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      
+      # Body of the servo
+      Transform {
+        translation 0 -0.0019 0
+        children [
+          DEF SERVO_BODY Shape {
+            appearance PBRAppearance {
+              baseColor IS servoColour
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.022 0.022 0.01
+            }
+          }
+        ]
+      }
+      
+      # Petrusion 1 on the body of the servo
+      Transform {
+        translation 0.013 0.0035 0
+        children [
+          DEF SERVO_BODY_PETRUSION_1 Shape {
+            appearance PBRAppearance {
+              baseColor IS servoColour
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.004 0.002 0.01
+            }
+          }
+        ]
+      }
+      
+      # Petrusion 2 on the body of the servo
+      Transform {
+        translation -0.013 0.0035 0
+        children [
+          DEF SERVO_BODY_PETRUSION_2 Shape {
+            appearance PBRAppearance {
+              baseColor IS servoColour
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.004 0.002 0.01
+            }
+          }
+        ]
+      }
+      
+      # Cylindrical petrusion on top of the servo
+      Transform {
+        translation -0.006 0.0105 0
+        rotation 1 0 0 1.57
+        children [
+          DEF SERVO_TOP_PETRUSION_1 Shape {
+            appearance PBRAppearance {
+              baseColor IS servoColour
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              radius 0.005
+              height 0.004
+            }
+          }
+        ]
+      }
+      
+      # Mini cylindrical petrusion on top of the servo
+      Transform {
+        translation 0 0.0105 0
+        rotation 1 0 0 1.57
+        children [
+          DEF SERVO_TOP_PETRUSION_2 Shape {
+            appearance PBRAppearance {
+              baseColor IS servoColour
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              radius 0.0025
+              height 0.0038
+            }
+          }
+        ]
+      }
+      
+      # Shaft of the servo
+      Transform {
+        translation IS shaftOffset
+        rotation 1 0 0 1.57
+        children [
+          DEF SERVO_SHAFT Shape {
+            appearance PBRAppearance {
+              baseColor IS white
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              radius 0.002
+              height IS shaftHeight
+            }
+          }
+        ]
+      }
+      
+      # Sticker for the servo
+      Transform {
+        translation 0 -0.003 -0.005
+        children [
+          DEF SERVO_STICKER Shape {
+            appearance PBRAppearance {
+              baseColor IS darkGrey
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.018 0.012 0.0005
+            }
+          }
+        ]
+      }
+    ]
+    
+    # Bounding box (for collision)
+    boundingObject Box {
+      size IS boundingBox
+    }
+    
+    # Physics (for mass)
+    physics Physics {
+      density -1
+      mass IS servoMass
+    }
+    
+    # Naming
+    name IS servoName
+  }
+}

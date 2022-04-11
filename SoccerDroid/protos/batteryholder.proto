@@ -1,0 +1,161 @@
+#VRML_SIM R2022a utf8
+# Created by Tanvee Islam (z5206859)
+# A Webots model for a 6 AA battery holder
+
+PROTO batteryholder [
+	field SFVec3f 		translation 	0 0 0
+	field SFRotation 	rotation 		0 0 1 0
+	field SFColor 		caseColorLight  0.0 0.0 0.0
+	field SFColor 		caseColorDark	0.0 0.0 0.0
+	field SFFloat 		bodyMass		0.015
+	field SFString 		name			"batteryholder"
+	
+]
+{
+	Solid {
+		translation IS translation
+		rotation IS rotation
+
+		children [
+			# Centre case
+			Transform {
+				translation 0.015 0 -0.003
+				children [
+					DEF CENTRE Shape {
+						appearance Appearance {
+							material Material { diffuseColor IS caseColorLight }
+						}
+						geometry Box { size 0.09 0.06 0.002 }
+					}
+				]   
+			}
+
+			# Top case
+			Transform {
+				translation 0.015 0.03 0
+				children [
+					DEF TOP Shape {
+						appearance Appearance {
+							material Material { diffuseColor IS caseColorLight }
+						}
+						geometry Box { size 0.09 0.002 0.03 }
+					}
+				]   
+			}
+
+			# Bottom case
+			Transform {
+				translation 0.015 -0.03 0
+				children [
+					DEF BOTTOM Shape {
+						appearance Appearance {
+							material Material { diffuseColor IS caseColorLight }
+						}
+						geometry Box { size 0.09 0.002 0.03 }
+					}
+				]   
+			}
+
+			# Side case 1
+			Transform {
+				translation 0.06 0 0
+				children [
+					DEF BOTTOM Shape {
+						appearance Appearance {
+							material Material { diffuseColor IS caseColorLight }
+						}
+						geometry Box { size 0.002 0.06 0.03 }
+					}
+				]   
+			}
+
+			# Side case 2
+			Transform {
+				translation -0.03 0 0
+				children [
+					DEF BOTTOM Shape {
+						appearance Appearance {
+							material Material { diffuseColor IS caseColorLight }
+						}
+						geometry Box { size 0.002 0.06 0.03 }
+					}
+				]   
+			}
+
+			# Inner divider 1
+			Transform {
+				translation -0.015 0 0
+				children [
+					DEF TOP Shape {
+						appearance Appearance {
+							material Material { diffuseColor IS caseColorDark }
+						}
+						geometry Box { size 0.0005 0.06 0.02 }
+					}
+				]   
+			}
+
+			# Inner divider 2
+			Transform {
+				translation 0.00 0 0
+				children [
+					DEF TOP Shape {
+						appearance Appearance {
+							material Material { diffuseColor IS caseColorDark }
+						}
+						geometry Box { size 0.0005 0.06 0.02 }
+					}
+				]   
+			}
+
+			# Inner divider 3
+			Transform {
+				translation 0.015 0 0
+				children [
+					DEF TOP Shape {
+						appearance Appearance {
+							material Material { diffuseColor IS caseColorDark }
+						}
+						geometry Box { size 0.0005 0.06 0.02 }
+					}
+				]   
+			}
+
+			# Inner divider 4
+			Transform {
+				translation 0.03 0 0
+				children [
+					DEF TOP Shape {
+						appearance Appearance {
+							material Material { diffuseColor IS caseColorDark }
+						}
+						geometry Box { size 0.0005 0.06 0.02 }
+					}
+				]   
+			}
+
+			# Inner divider 5
+			Transform {
+				translation 0.045 0 0
+				children [
+					DEF TOP Shape {
+						appearance Appearance {
+							material Material { diffuseColor IS caseColorDark }
+						}
+						geometry Box { size 0.0005 0.06 0.02 }
+					}
+				]   
+			}
+
+		]
+
+		physics Physics {
+			mass IS bodyMass
+			density -1
+		}
+
+		boundingObject Box { size 0.06 0.06 0.03 }
+
+		name IS name
+	}
+}

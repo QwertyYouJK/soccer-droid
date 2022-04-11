@@ -1,0 +1,153 @@
+#VRML_SIM R2022a utf8
+# Component:    Pixy2Cam PROTO
+# Author:       Raghav Hariharan (z5162972)
+# Last Update:  25/03/2022
+
+
+PROTO pixy2Cam [
+    field SFVec3f    translation      0 0 0
+    field SFRotation rotation         0 0 1 0
+    field SFFloat    bodyMass         0.005
+    #field SFColor    pcbColor         0 0 1
+    field SFColor    white            1 1 1
+    field SFColor    black            0 0 0 
+    field SFColor    grey            0.1 0.1 0.1 
+    #field SFColor    gold             1 0.843 0
+  ]
+
+  {
+    DEF pixy2Cam Camera {
+      translation IS translation
+      rotation IS rotation
+      
+      children [
+        
+        # PCB
+        Transform {
+          translation 0 0 0
+          children [
+            DEF PCB Shape {
+              appearance Appearance {
+                material Material { diffuseColor IS grey }
+              }
+              geometry Box { size 0.00362  0.0381 0.04191}
+            }
+          ]
+        }
+        
+      Transform {
+          translation 0 0 -0.023955
+          children [
+            Shape {
+              appearance Appearance {
+                material Material { diffuseColor IS grey }
+              }
+              geometry Box { size 0.00362 0.017 0.010  }
+            }
+          ]
+        }
+
+        Transform {
+         translation  0.00172  0.0 0.010955
+          children [
+            Shape {
+              appearance Appearance {
+                material Material { diffuseColor IS white }
+              }
+              geometry Box { size 0.0035 0.015 0.015  } 
+            }
+          ]
+        }
+
+        Transform {
+            translation 0.00442  0.0 0.010955
+            rotation    0 1 0 1.5708
+            children [
+              DEF SMALLHOLE Shape {
+                appearance Appearance {
+                  material Material { diffuseColor IS black }
+                }
+                geometry Cylinder { 
+                  height 0.002
+                  radius 0.004
+                 }
+              }
+            ]
+          }
+
+        Transform {
+          translation 0.00272 0 -0.005 
+          children [
+            Shape {
+              appearance Appearance {
+                material Material { diffuseColor IS black }
+              }
+              geometry Box { size 0.002 0.01 0.01  }
+            }
+          ]
+        }
+
+        Transform {
+          translation 0.00272 0.015 -0.010955 
+          children [
+            Shape {
+              appearance Appearance {
+                material Material { diffuseColor IS black }
+              }
+              geometry Box { size 0.002 0.005 0.005  }
+            }
+          ]
+        }
+          Transform {
+          translation 0.00272 -0.008 -0.010955 
+          children [
+            Shape {
+              appearance Appearance {
+                material Material { diffuseColor IS black }
+              }
+              geometry Box { size 0.002 0.005 0.005  }
+            }
+          ]
+        }
+
+        Transform {
+          translation 0.00272 -0.013 0.010955 
+          children [
+            Shape {
+              appearance Appearance {
+                material Material { diffuseColor IS black }
+              }
+              geometry Box { size 0.002 0.009 0.02  }
+            }
+          ]
+        }
+        Transform {
+          translation 0.00272 0.013 0.010955 
+          children [
+            Shape {
+              appearance Appearance {
+                material Material { diffuseColor IS black }
+              }
+              geometry Box { size 0.002 0.009 0.02  }
+            }
+          ]
+        }
+      ]
+      boundingObject Box {
+        size 0.00362 0.0381 0.04191 
+      }
+
+      physics Physics {
+        mass IS bodyMass
+        density -1
+      }
+      
+      name "pixy2Cam"
+      fieldOfView 1
+      width 300
+      height 200
+      near 0.005
+      recognition Recognition {
+      }
+    }
+  }

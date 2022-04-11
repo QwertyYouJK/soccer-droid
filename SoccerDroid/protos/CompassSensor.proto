@@ -1,0 +1,186 @@
+#VRML_SIM R2022a utf8
+# Component:    Compass PROTO
+# Author:       Raghav Hariharan (z5162972)
+# Last Update:  22/02/2022
+
+PROTO CompassSensor [
+    field SFVec3f    translation      0 0 0
+    field SFRotation rotation         0 0 1 0
+    field SFColor    pcbColor         0 0 1
+    field SFColor    white            1 1 1
+    field SFColor    black            0 0 0 
+    field SFColor    gold             1 0.843 0
+    field SFString   name             "compass"
+  ]
+
+{
+
+    DEF COMPASS Compass {
+        translation IS translation
+        rotation IS rotation
+        children [
+            # PCB
+            Transform {
+              translation 0 0 0.00118
+              children [
+                Shape {
+                  appearance Appearance {
+                    material Material { diffuseColor IS pcbColor }
+                  }
+                  geometry Box { size 0.0185 0.0134 0.00236 }
+                }
+              ]
+            }
+            # HOLES
+            Transform {
+              translation -0.007 -0.0045 0.00236
+              children [
+                DEF BIGHOLE Shape {
+                  appearance Appearance {
+                    material Material { diffuseColor IS white }
+                  }
+                  geometry Cylinder { 
+                    height 0.0001
+                    radius 0.0015
+                   }
+                }
+              ]
+            }
+    
+            Transform {
+                translation -0.007 0.0045 0.00236
+                children [ USE BIGHOLE ]
+              }
+    
+              Transform {
+                translation 0.0075 -0.005 0.00236
+                children [
+                  DEF SMALLHOLE Shape {
+                    appearance Appearance {
+                      material Material { diffuseColor IS white }
+                    }
+                    geometry Cylinder { 
+                      height 0.0001
+                      radius 0.001
+                     }
+                  }
+                ]
+              }
+    
+              Transform {
+                translation 0.0075 -0.0025 0.00236
+                children [ USE SMALLHOLE ]
+              }
+    
+              Transform {
+                translation 0.0075 0 0.00236
+                children [ USE SMALLHOLE ]
+              }
+    
+              Transform {
+                translation 0.0075 0.0025 0.00236
+                children [ USE SMALLHOLE ]
+              }
+    
+              Transform {
+                translation 0.0075 0.005 0.00236
+                children [ USE SMALLHOLE ]
+              }
+    
+    
+              # IC CONNECTORS
+              Transform {
+                translation 0 0 0.00236
+                
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material { diffuseColor IS black }
+                    }
+                    geometry Box { size 0.004 0.004  0.0005 }
+                  }
+                ]
+              }
+    
+              # MISC CONNECTORS
+              Transform {
+                translation -0.004 0 0.00236
+                children [
+                  DEF MISC Shape {
+                    appearance Appearance {
+                      material Material { diffuseColor IS gold }
+                    }
+                    geometry Box { size 0.001 0.0015  0.0005 }
+                  }
+                ]
+              }
+    
+              Transform {
+                translation -0.006 0 0.00236
+                children [ USE MISC ]
+              }
+    
+              Transform {
+                translation 0.004 -0.001 0.00236
+                rotation 0 0 1 1.5708
+                children [ USE MISC ]
+              }
+    
+              Transform {
+                translation 0.004 -0.0025 0.00236
+                rotation 0 0 1 1.5708
+                children [ USE MISC ]
+              }
+    
+              Transform {
+                translation 0.004 -0.004 0.00236
+                rotation 0 0 1 1.5708
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material { diffuseColor IS black }
+                    }
+                    geometry Box { size 0.001 0.0015  0.0005 }
+                  }
+                ]
+              }
+    
+              Transform {
+                translation 0.004 -0.0055 0.00236
+                rotation 0 0 1 1.5708
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material { diffuseColor IS black }
+                    }
+                    geometry Box { size 0.001 0.0015  0.0005 }
+                  }
+                ]
+              }
+    
+              Transform {
+                translation 0.004 0.0025 0.00236
+                rotation 0 0 1 1.5708
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material { diffuseColor IS black }
+                    }
+                    geometry Box { size 0.002 0.0025  0.0005 }
+                  }
+                ]
+              }
+    
+              Transform {
+                translation 0.004 0.005 0.00236
+                rotation 0 0 1 1.5708
+                children [ USE MISC ]
+              }
+
+          
+        ]
+        name IS name
+        translation 0 0 0.05
+        rotation 0 0 1 -1.5708
+      }
+}

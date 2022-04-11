@@ -1,0 +1,229 @@
+#VRML_SIM R2022a utf8
+# Created by Tanvee Islam z5206859
+# Modified by Raghav Hariharan z5162972
+# A Webots model for the HC-SR04 Ultrasonic Sensor
+
+PROTO ultrasonic [
+    field SFVec3f       translation     0 0 0
+    field SFRotation    rotation        0 0 1 0
+    field SFFloat       bodyMass        0.010
+    field SFColor       pcbColor        0.2 0.25 1
+    field SFColor       metalColor      0.5 0.5 0.5
+    field SFColor       GrillColor      0   0   0
+    field SFColor       icColor         0.1   0.1   0.1
+    field SFString      name            "ultrasonic"
+]
+{
+    Solid {
+        translation IS translation
+        rotation IS rotation
+
+        children [
+            # PCB
+            DEF PCB Transform {
+                translation 0 0 0
+                children [
+                    DEF PCB_SHAPE Shape {
+                        appearance Appearance {
+                            material Material {diffuseColor IS pcbColor }
+                        }
+                        geometry Box { size 0.045 0.020 0.0015}
+                    }
+                ]
+            }
+
+            # Speaker 1
+            DEF SPEAKER_1 Transform {
+                translation 0.012 0 0.006
+                children [
+                    DEF SPEAKER_SHAPE Shape {
+                        appearance Appearance {
+                            material Material { diffuseColor IS metalColor }
+                        }
+                        geometry Cylinder {
+                            height 0.012
+                            radius 0.008
+                        }
+                    }
+                ]
+            }
+
+            # Speaker 2
+            DEF SPEAKER_2 Transform {
+                translation -0.012 0 0.006
+                children [
+                    USE SPEAKER_SHAPE
+                ]
+            }
+
+            # Speaker Grill 1
+            DEF GRILL_1 Transform {
+                translation 0.012 0 0.006
+                children [
+                    DEF GRILL_SHAPE Shape {
+                        appearance Appearance {
+                            material Material { diffuseColor IS GrillColor }
+                        }
+                        geometry Cylinder {
+                            height 0.0125
+                            radius 0.007
+                        }
+                    }
+                ]
+            }
+
+            # Speaker Grill 2
+            DEF GRILL_2 Transform {
+                translation -0.012 0 0.006
+                children [
+                    USE GRILL_SHAPE
+                ]
+            }
+
+            # Crystal cylinder 1
+            DEF CRYSTAL_CYL_1 Transform {
+                translation -0.0025 0.0075 0.0025
+                children [
+                    DEF CRYSTAL_CYL_SHAPE Shape {
+                        appearance Appearance {
+                            material Material { diffuseColor IS metalColor }
+                        }
+                        geometry Cylinder {
+                            height 0.0022
+                            radius 0.0018
+                        }
+                    }
+                ]
+            }
+
+            # Crystal cylinder 2
+            DEF CRYSTAL_CYL_2 Transform {
+                translation 0.0025 0.0075 0.0025
+                children [
+                    USE CRYSTAL_CYL_SHAPE
+                ]
+            }
+
+            # Crystal Prism
+            DEF CRYSTAL_BODY Transform {
+                translation 0 0.0075 0.0025
+                children [
+                    DEF CRYSTAL_BODY_SHAPE Shape {
+                        appearance Appearance {
+                            material Material {diffuseColor IS metalColor }
+                        }
+                        geometry Box { size 0.005 0.0036 0.0022}
+                    }
+                ]
+            }
+
+            # Crystal base
+            DEF CRYSTAL_BASE Transform {
+                translation 0 0.0075 0.001
+                children [
+                    DEF CRYSTAL_BASE_SHAPE Shape {
+                        appearance Appearance {
+                            material Material {diffuseColor IS metalColor }
+                        }
+                        geometry Box { size 0.009 0.0036 0.0002}
+                    }
+                ]
+            }
+
+            # Header pins
+            DEF PINS Transform {
+                translation 0 -0.011 -0.002
+                children [
+                    DEF PIN_SHAPE Shape {
+                        appearance Appearance {
+                            material Material {diffuseColor IS GrillColor }
+                        }
+                        geometry Box { size 0.009 0.0075 0.00254}
+                    }
+                ]
+            }
+
+            # Integrated Circuit Chips
+            DEF IC_1 Transform {
+                translation 0 -0.001 -0.002
+                children [
+                    DEF IC Shape {
+                        appearance Appearance {
+                            material Material {diffuseColor IS icColor }
+                        }
+                        geometry Box { size 0.007 0.004 0.0015}
+                    }
+                ]
+            }
+
+            DEF IC_2 Transform {
+                translation -0.018 -0.001 -0.002
+                rotation    0 0 1 1.5708
+                children [ USE IC ]
+            }
+
+            DEF IC_3 Transform {
+                translation 0.016 0.0025 -0.002
+                rotation    0 0 1 1.5708
+                children [ USE IC ]
+            }
+
+            # Mounting holes
+            DEF MOUNTING_HOLE_1 Transform {
+                translation 0.0205 0.008 0
+                children [
+                    DEF MOUNTING_HOLE Shape {
+                        appearance Appearance {
+                            material Material { diffuseColor IS metalColor }
+                        }
+                        geometry Cylinder {
+                            height 0.002
+                            radius 0.0012
+                        }
+                    }
+                ]
+            }
+
+            DEF MOUNTING_HOLE_2 Transform {
+                translation -0.0205 0.008 0
+                children [ USE MOUNTING_HOLE ]
+            }
+
+            DEF MOUNTING_HOLE_3 Transform {
+                translation 0.0205 -0.008 0
+                children [ USE MOUNTING_HOLE ]
+            }
+
+            DEF MOUNTING_HOLE_4 Transform {
+                translation -0.0205 -0.008 0
+                children [ USE MOUNTING_HOLE ]
+            }
+            
+        ]
+
+        boundingObject Group {
+            children [
+                USE PCB
+                USE SPEAKER_1
+                USE SPEAKER_2
+                USE GRILL_1
+                USE GRILL_2
+                USE CRYSTAL_CYL_1
+                USE CRYSTAL_CYL_2
+                USE CRYSTAL_BASE
+                USE CRYSTAL_BODY
+                USE PINS
+                USE IC_1
+                USE IC_2
+                USE IC_3
+            ]
+        }
+
+        physics Physics {
+            mass IS bodyMass
+            density -1
+        }
+
+        name IS name
+    }
+}
