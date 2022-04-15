@@ -59,14 +59,11 @@ bool locateBall() {
       if (pixy.ccc.blocks[i].m_signature == 1) {
         area = pixy.ccc.blocks[i].m_width * pixy.ccc.blocks[i].m_height;
         // Is this the biggest block
-        if ((area > 200) && (area > maxArea)) {
-          maxArea = area;
-          ballArea = area;
-          ballWidth = pixy.ccc.blocks[i].m_width;
-          ballX = pixy.ccc.blocks[i].m_x; 
-          ballY = pixy.ccc.blocks[i].m_y;
-          result = true;
-        }
+        ballArea = area;
+        ballWidth = pixy.ccc.blocks[i].m_width;
+        ballX = pixy.ccc.blocks[i].m_x; 
+        ballY = pixy.ccc.blocks[i].m_y;
+        result = true;
       }
     }
 
@@ -159,8 +156,10 @@ enAction findTheBall(int robotAction) {
   // Is this the first call to this function
   if (robotAction != enActionFindTheBall) {
     timeLimit = millis() + 10000;
+    // If ball was last seen on left side, spin anti-clockwise (default)
     if(lastSeen < 150){
       runMotors(-100, 100);
+    // If ball was last seen on right side, spin clockwise
     } else if (lastSeen > 150){
       runMotors(100, -100);
     }
