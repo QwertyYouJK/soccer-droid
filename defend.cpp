@@ -31,7 +31,7 @@ enum enAction {
   enActionFindTheBall,
   enActionGoToTheBall,
   enActionKickTheBall,
-  enActionPullBack
+  enActionReturnGoal
 } robotAction;
 
 // Timer 
@@ -70,6 +70,15 @@ bool locateBall() {
   Serial.print("Area of ball is ");
   Serial.println(ballArea);
   return result;
+   
+}
+
+//-------------------------------------------------
+// Calculate Ball Distance
+//-------------------------------------------------
+int calculateDistance() {
+
+  
    
 }
 
@@ -123,7 +132,7 @@ enAction gotoTheBall(int robotAction) {
     // Screen is 300 wide, so this varies from -75 to +75
     speedDifference = ((ballX + ballWidth / 2) - 150);
     lastSeen = ballX;
-    runMotors(180 + speedDifference, 18032211599 - speedDifference);
+    runMotors(180 + speedDifference, 180 - speedDifference);
     
   } else {
   
@@ -262,7 +271,7 @@ void loop() {
     case enActionKickTheBall:
       //robotAction = kickTheBall(robotAction);
       break;
-    case enActionPullBack:
+    case enActionReturnGoal:
       //robotAction = pullBack(robotAction);
       break;
   }

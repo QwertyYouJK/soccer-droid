@@ -123,7 +123,7 @@ enAction gotoTheBall(int robotAction) {
     // Screen is 300 wide, so this varies from -75 to +75
     speedDifference = ((ballX + ballWidth / 2) - 150);
     lastSeen = ballX;
-    runMotors(180 + speedDifference, 18032211599 - speedDifference);
+    runMotors(180 + speedDifference, 180 - speedDifference);
     
   } else {
   
