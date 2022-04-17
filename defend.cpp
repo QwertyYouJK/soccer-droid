@@ -18,10 +18,19 @@ L298N leftMotorDriver(9, 10, 11);
 L298N rightMotorDriver(6, 7, 8);
 
 Pixy2 pixy;
+
+// Ball variables
 int ballX;
 int ballY;
 int ballWidth;
 int ballArea;
+
+// Goal variables
+int goalX;
+int goalY;
+int goalWidth;
+int goalArea;
+
 int lastSeen = 149;
 
 // Robot actions
@@ -31,11 +40,27 @@ enum enAction {
   enActionFindTheBall,
   enActionGoToTheBall,
   enActionKickTheBall,
-  enActionReturnGoal
+  enActionFindGoal,
+  enActionGoToGoal,
+  enActionTurnAround
 } robotAction;
 
 // Timer 
 int timeLimit;
+int timeLimit2;
+
+
+// Go to ball flag
+bool gbflag = false;
+
+// Go to goal flag
+bool ggflag = false;
+
+// Find goal flag
+bool fgflag = false;
+
+// Turn around flag
+int turnflag = 0;
 
 //-------------------------------------------------------------------------------------
 // Arduino functions and subroutines
@@ -47,7 +72,6 @@ int timeLimit;
 bool locateBall() {
 
   int area;
-  int maxArea = 0;
   bool result = false;
 
   // Scan for signature blocks
@@ -58,7 +82,6 @@ bool locateBall() {
       // Is this block the ball, ie. signature 1
       if (pixy.ccc.blocks[i].m_signature == 1) {
         area = pixy.ccc.blocks[i].m_width * pixy.ccc.blocks[i].m_height;
-        // Is this the biggest block
         ballArea = area;
         ballWidth = pixy.ccc.blocks[i].m_width;
         ballX = pixy.ccc.blocks[i].m_x; 
@@ -67,18 +90,65 @@ bool locateBall() {
       }
     }
 
-  Serial.print("Area of ball is ");
-  Serial.println(ballArea);
+  //Serial.print("Area of ball is ");
+  //Serial.println(ballArea);
   return result;
    
 }
 
 //-------------------------------------------------
-// Calculate Ball Distance
+// Locate my Goal
 //-------------------------------------------------
-int calculateDistance() {
+bool locateGoal() {
 
-  
+  int area;
+  bool result = false;
+
+  // Scan for signature blocks
+  pixy.ccc.getBlocks();
+
+    // Enumerate any blocks
+    for (int i = 0; i < pixy.ccc.numBlocks; i++) {
+      // Is this block the goal, ie. signature 2
+      if (pixy.ccc.blocks[i].m_signature == 2) {
+        area = pixy.ccc.blocks[i].m_width * pixy.ccc.blocks[i].m_height;
+        goalArea = area;
+        goalWidth = pixy.ccc.blocks[i].m_width;
+        goalX = pixy.ccc.blocks[i].m_x; 
+        goalY = pixy.ccc.blocks[i].m_y;
+        result = true;
+      }
+    }
+
+  return result;
+   
+}
+
+//-------------------------------------------------
+// Locate opponent's Goal
+//-------------------------------------------------
+bool locateoppGoal() {
+
+  int area;
+  bool result = false;
+
+  // Scan for signature blocks
+  pixy.ccc.getBlocks();
+
+    // Enumerate any blocks
+    for (int i = 0; i < pixy.ccc.numBlocks; i++) {
+      // Is this block the goal, ie. signature 4
+      if (pixy.ccc.blocks[i].m_signature == 4) {
+        area = pixy.ccc.blocks[i].m_width * pixy.ccc.blocks[i].m_height;
+        goalArea = area;
+        goalWidth = pixy.ccc.blocks[i].m_width;
+        goalX = pixy.ccc.blocks[i].m_x; 
+        goalY = pixy.ccc.blocks[i].m_y;
+        result = true;
+      }
+    }
+
+  return result;
    
 }
 
@@ -103,25 +173,27 @@ void runMotors(int leftSpeed, int rightSpeed) {
 
 }
 
+
+
 //-------------------------------------------------
-// Stop
+// Stop (enActionStop)
 //-------------------------------------------------
 void stopMotors() {
 
   leftMotorDriver.stop();
   rightMotorDriver.stop();
-  Serial.println("Robot stopped");
+  //Serial.println("Robot stopped");
 }
 
 //-------------------------------------------------
-// Goto The Ball
+// Find the ball (enActionFindTheBall)
 //-------------------------------------------------
-enAction gotoTheBall(int robotAction) {
+enAction findTheBall(int robotAction) {
 
   int speedDifference;
 
   // Is this the first call to this function
-  if (robotAction != enActionGoToTheBall) {
+  if (robotAction != enActionFindTheBall) {
     timeLimit = millis() + 20000;
   }
   
@@ -129,17 +201,22 @@ enAction gotoTheBall(int robotAction) {
   if (locateBall()) {
   
     // Calculate the speeds of the left and right wheels
-    // Screen is 300 wide, so this varies from -75 to +75
+    // Screen is 300 wide, so this varies from -150 to +150
     speedDifference = ((ballX + ballWidth / 2) - 150);
     lastSeen = ballX;
-    runMotors(180 + speedDifference, 180 - speedDifference);
+    runMotors(0 + 2*speedDifference, 0 - 2*speedDifference);
+    
+    // If ball is close, begin defend the goal
+    if (ballArea > 1500) {
+       return enActionGoToTheBall;
+    }
     
   } else {
   
     // Lost the ball?  then stop
     stopMotors();
     lastSeen = ballX;
-    Serial.println("Ball lost");
+    //Serial.println("Ball lost");
     return enActionNone;
     
   }
@@ -153,32 +230,72 @@ enAction gotoTheBall(int robotAction) {
   if (locateBall()) {
     // If ball area is larger than 20000, kick the ball
   }
+  return enActionFindTheBall;
+  
+}
+
+//-------------------------------------------------
+// Goto The Ball (enActionGoToTheBall)
+//-------------------------------------------------
+enAction gotoTheBall(int robotAction) {
+
+  int speedDifference;
+
+  // Is this the first call to this function
+  if (!gbflag) {
+    timeLimit = millis() + 2000;
+    gbflag = true;
+  }
+  
+  // Have we run out of time
+  if (millis() > timeLimit) {
+    gbflag = false;
+    return enActionKickTheBall;
+  }
+  
+  // Locate the position of the ball on the camera screen
+  if (locateBall()) {
+  
+    // Calculate the speeds of the left and right wheels
+    // Screen is 300 wide, so this varies from -150 to +150
+    speedDifference = ((ballX + ballWidth / 2) - 150) / 2;
+    runMotors(180 + speedDifference, 180 - speedDifference);
+    
+  } else {
+  
+    // Lost the ball?  then stop
+    stopMotors();
+    lastSeen = ballX;
+    Serial.println("Ball lost");
+    gbflag = false;
+    return enActionFindGoal;
+    
+  }
+
   return enActionGoToTheBall;
   
 }
 
 //-------------------------------------------------
-// Find the ball
+// Find the Goal (enActionFindGoal)
 //-------------------------------------------------
-enAction findTheBall(int robotAction) {
-
+enAction findGoal(int robotAction) {
+    
   // Is this the first call to this function
-  if (robotAction != enActionFindTheBall) {
+  if (!fgflag) {
     timeLimit = millis() + 10000;
-    // If ball was last seen on left side, spin anti-clockwise (default)
-    if(lastSeen < 150){
-      runMotors(-100, 100);
-    // If ball was last seen on right side, spin clockwise
-    } else if (lastSeen > 150){
-      runMotors(100, -100);
-    }
+    fgflag = true;
+    // Spin to find goal
+    runMotors(-100, 100);
   }
   
   // Is this the ball in the middle of the frame?  Then we have found it!
-  if (locateBall()) {
-    if ((ballX + ballWidth / 2 > 100) && (ballX + ballWidth / 2 < 200)) {
+  if (locateGoal()) {
+    Serial.println(goalX + goalWidth / 2);
+    if ((goalX + goalWidth / 2.7 > 120) && (goalX + goalWidth / 2.7 < 180)) {
       stopMotors();
-      return gotoTheBall(robotAction);
+      fgflag = false;
+      return enActionGoToGoal;
     }
   }
   
@@ -189,47 +306,88 @@ enAction findTheBall(int robotAction) {
     return enActionNone;
   }
    
-  return enActionFindTheBall;
-  
+  return enActionFindGoal;
+
 }
 
 //-------------------------------------------------
-// Kick the ball
+// Go back to the Goal (enActionGoToGoal)
+//-------------------------------------------------
+enAction gotoGoal(int robotAction){
+  
+  // Is this the first call to this function
+  if (!ggflag) {
+    timeLimit = millis() + 2000;
+    ggflag = true;
+  }
+  
+  // Have we run out of time
+  if (millis() > timeLimit) {
+    ggflag = false;
+    return enActionTurnAround;
+  }
+  
+  // Locate the position of the ball on the camera screen
+  if (locateGoal()) {
+  
+    // Calculate the speeds of the left and right wheels
+    // Screen is 300 wide, so this varies from -150 to +150
+    runMotors(180,180);
+  }
+
+  return enActionGoToGoal;
+
+}
+
+//-------------------------------------------------
+// Turn Around (enActionTurnAround)
+//-------------------------------------------------
+enAction turnAround(int robotAction){
+
+  // First go back
+  if (turnflag == 0) {
+    timeLimit = millis() + 200;
+    runMotors(-255,-255);
+    turnflag = 1;
+  }
+  
+  // Second turn around 180
+  if (turnflag == 2) {
+    runMotors(255,-255);
+    turnflag = 3;
+  }
+  
+  // Have we run out of timeLimit
+  if (millis() > timeLimit && turnflag == 1) {
+    stopMotors();
+    turnflag = 2;
+  }
+  
+  // If opponent's goal is at centre, stop turning
+  if (locateoppGoal() && turnflag == 3) {
+    if ((goalX + goalWidth / 2 > 100) && (goalX + goalWidth / 2 < 200)) {
+      stopMotors();
+      turnflag = 0;
+      return enActionNone;
+    }
+  }
+
+  
+  
+  return enActionTurnAround;
+
+}
+
+//-------------------------------------------------
+// Kick the ball (enActionKickTheBall)
 //-------------------------------------------------
 enAction kickTheBall(int robotAction) {
   
-  if (robotAction != enActionKickTheBall) {
-    timeLimit = millis() + 500;
-    runMotors(255, 255);
-  }
-  
-  if (millis() > timeLimit) {
-    stopMotors();
-    Serial.println("Kicked the ball");
-    
-  }
-  return enActionKickTheBall;
-}
-
-//-------------------------------------------------
-// Pull back
-//-------------------------------------------------
-enAction pullBack(int robotAction) {
-  
-  if (robotAction != enActionPullBack) {
-    timeLimit = millis() + 500;
-    runMotors(-255, -255);
-  }
-  if (millis() > timeLimit) {
-    stopMotors();
-    Serial.println("Pulled back");
-    return enActionNone;
-    
-  }
-  return enActionPullBack;
+  Serial.println("Kick the ball");
+  stopMotors();
+  return enActionFindGoal;
 
 }
-
 
 //-------------------------------------------------------------------------------------
 // Arduino setup()
@@ -269,11 +427,18 @@ void loop() {
       robotAction = gotoTheBall(robotAction);
       break;
     case enActionKickTheBall:
-      //robotAction = kickTheBall(robotAction);
+      robotAction = kickTheBall(robotAction);
       break;
-    case enActionReturnGoal:
-      //robotAction = pullBack(robotAction);
+    case enActionFindGoal:
+      robotAction = findGoal(robotAction);
       break;
+    case enActionGoToGoal:
+      robotAction = gotoGoal(robotAction);
+      break;
+    case enActionTurnAround:
+      robotAction = turnAround(robotAction);
+      break;
+      
   }
     
   
