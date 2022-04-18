@@ -1,4 +1,4 @@
-// ####################################################################################
+####################################################################################
 // Arduino Code
 // 
 // Place the Arduino code here
@@ -182,7 +182,7 @@ void stopMotors() {
 
   leftMotorDriver.stop();
   rightMotorDriver.stop();
-  //Serial.println("Robot stopped");
+  Serial.println("Robot stopped");
 }
 
 //-------------------------------------------------
