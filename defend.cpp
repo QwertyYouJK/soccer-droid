@@ -47,7 +47,7 @@ enum enAction {
 
 // Timer 
 int timeLimit;
-int timeLimit2;
+int lostTime = 0;
 
 
 // Go to ball flag
@@ -182,7 +182,6 @@ void stopMotors() {
 
   leftMotorDriver.stop();
   rightMotorDriver.stop();
-  Serial.println("Robot stopped");
 }
 
 //-------------------------------------------------
@@ -226,10 +225,7 @@ enAction findTheBall(int robotAction) {
     stopMotors();         
     return enActionNone;
   }
-   
-  if (locateBall()) {
-    // If ball area is larger than 20000, kick the ball
-  }
+
   return enActionFindTheBall;
   
 }
@@ -257,9 +253,9 @@ enAction gotoTheBall(int robotAction) {
   if (locateBall()) {
   
     // Calculate the speeds of the left and right wheels
-    // Screen is 300 wide, so this varies from -150 to +150
-    speedDifference = ((ballX + ballWidth / 2) - 150) / 2;
-    runMotors(180 + speedDifference, 180 - speedDifference);
+    // Screen is 300 wide, so this varies from -75 to +75
+    speedDifference = (ballX + ballWidth / 2) - 150;
+    runMotors(180 + 2*speedDifference, 180 - 2*speedDifference);
     
   } else {
   
@@ -267,6 +263,7 @@ enAction gotoTheBall(int robotAction) {
     stopMotors();
     lastSeen = ballX;
     Serial.println("Ball lost");
+    lostTime = timeLimit - millis();
     gbflag = false;
     return enActionFindGoal;
     
@@ -291,8 +288,7 @@ enAction findGoal(int robotAction) {
   
   // Is this the ball in the middle of the frame?  Then we have found it!
   if (locateGoal()) {
-    Serial.println(goalX + goalWidth / 2);
-    if ((goalX + goalWidth / 2.7 > 120) && (goalX + goalWidth / 2.7 < 180)) {
+    if ((goalX > 120) && (goalX < 180)) {
       stopMotors();
       fgflag = false;
       return enActionGoToGoal;
@@ -315,15 +311,24 @@ enAction findGoal(int robotAction) {
 //-------------------------------------------------
 enAction gotoGoal(int robotAction){
   
+  int speedDifference;
+  
   // Is this the first call to this function
   if (!ggflag) {
-    timeLimit = millis() + 2000;
-    ggflag = true;
+    if (lostTime > 0){
+      timeLimit = millis() + lostTime;
+      ggflag = true;
+    } else {
+      timeLimit = millis() + 2500;
+      ggflag = true;
+    }
+    
   }
   
   // Have we run out of time
   if (millis() > timeLimit) {
     ggflag = false;
+    lostTime = 0;
     return enActionTurnAround;
   }
   
@@ -331,8 +336,8 @@ enAction gotoGoal(int robotAction){
   if (locateGoal()) {
   
     // Calculate the speeds of the left and right wheels
-    // Screen is 300 wide, so this varies from -150 to +150
-    runMotors(180,180);
+    speedDifference = goalX - 150;
+    runMotors(180 + speedDifference, 180 - speedDifference);
   }
 
   return enActionGoToGoal;
@@ -346,7 +351,7 @@ enAction turnAround(int robotAction){
 
   // First go back
   if (turnflag == 0) {
-    timeLimit = millis() + 200;
+    timeLimit = millis() + 300;
     runMotors(-255,-255);
     turnflag = 1;
   }
@@ -365,7 +370,11 @@ enAction turnAround(int robotAction){
   
   // If opponent's goal is at centre, stop turning
   if (locateoppGoal() && turnflag == 3) {
-    if ((goalX + goalWidth / 2 > 100) && (goalX + goalWidth / 2 < 200)) {
+    if (locateBall()){
+      stopMotors();
+      turnflag = 0;
+      return enActionNone;
+    } else if ((goalX + goalWidth / 2 > 100) && (goalX + goalWidth / 2 < 200)) {
       stopMotors();
       turnflag = 0;
       return enActionNone;
