@@ -47,7 +47,6 @@ int timeLimit;
 bool locateBall() {
 
   int area;
-  int maxArea = 0;
   bool result = false;
 
   // Scan for signature blocks
@@ -121,7 +120,7 @@ enAction gotoTheBall(int robotAction) {
   
     // Calculate the speeds of the left and right wheels
     // Screen is 300 wide, so this varies from -75 to +75
-    speedDifference = ((ballX + ballWidth / 2) - 150);
+    speedDifference = (ballX - 150) / 2;
     lastSeen = ballX;
     runMotors(180 + speedDifference, 180 - speedDifference);
     

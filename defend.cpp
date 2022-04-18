@@ -179,7 +179,7 @@ void runMotors(int leftSpeed, int rightSpeed) {
 // Stop (enActionStop)
 //-------------------------------------------------
 void stopMotors() {
-
+  // Stop the motors
   leftMotorDriver.stop();
   rightMotorDriver.stop();
 }
@@ -201,9 +201,9 @@ enAction findTheBall(int robotAction) {
   
     // Calculate the speeds of the left and right wheels
     // Screen is 300 wide, so this varies from -150 to +150
-    speedDifference = ((ballX + ballWidth / 2) - 150);
+    speedDifference = (ballX - 150) / 2;
     lastSeen = ballX;
-    runMotors(0 + 2*speedDifference, 0 - 2*speedDifference);
+    runMotors(0 + speedDifference, 0 - speedDifference);
     
     // If ball is close, begin defend the goal
     if (ballArea > 1500) {
@@ -254,8 +254,8 @@ enAction gotoTheBall(int robotAction) {
   
     // Calculate the speeds of the left and right wheels
     // Screen is 300 wide, so this varies from -75 to +75
-    speedDifference = (ballX + ballWidth / 2) - 150;
-    runMotors(180 + 2*speedDifference, 180 - 2*speedDifference);
+    speedDifference = (ballX - 150) / 2;
+    runMotors(180 + speedDifference, 180 - speedDifference);
     
   } else {
   
