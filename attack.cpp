@@ -30,8 +30,7 @@ enum enAction {
   enActionStop,
   enActionFindTheBall,
   enActionGoToTheBall,
-  enActionKickTheBall,
-  enActionPullBack
+  enActionKickTheBall
 } robotAction;
 
 // Timer 
@@ -259,10 +258,7 @@ void loop() {
       robotAction = gotoTheBall(robotAction);
       break;
     case enActionKickTheBall:
-      //robotAction = kickTheBall(robotAction);
-      break;
-    case enActionPullBack:
-      //robotAction = pullBack(robotAction);
+      robotAction = kickTheBall(robotAction);
       break;
   }
     

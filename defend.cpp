@@ -337,7 +337,7 @@ enAction gotoGoal(int robotAction){
   
     // Calculate the speeds of the left and right wheels
     speedDifference = goalX - 150;
-    runMotors(180 + speedDifference, 180 - speedDifference);
+    runMotors(200 + speedDifference, 200 - speedDifference);
   }
 
   return enActionGoToGoal;
@@ -358,7 +358,11 @@ enAction turnAround(int robotAction){
   
   // Second turn around 180
   if (turnflag == 2) {
-    runMotors(255,-255);
+    if (lastSeen > 150){
+      runMotors(-255,255);
+    } else if (lastSeen < 150){
+      runMotors(255,-255);
+    }
     turnflag = 3;
   }
   
@@ -369,12 +373,12 @@ enAction turnAround(int robotAction){
   }
   
   // If opponent's goal is at centre, stop turning
-  if (locateoppGoal() && turnflag == 3) {
-    if (locateBall()){
-      stopMotors();
-      turnflag = 0;
-      return enActionNone;
-    } else if ((goalX + goalWidth / 2 > 100) && (goalX + goalWidth / 2 < 200)) {
+  if (locateBall()){
+    stopMotors();
+    turnflag = 0;
+    return enActionNone;
+  } else if (locateoppGoal() && turnflag == 3) {
+    if ((goalX + goalWidth / 2 > 100) && (goalX + goalWidth / 2 < 200)) {
       stopMotors();
       turnflag = 0;
       return enActionNone;
@@ -392,7 +396,7 @@ enAction turnAround(int robotAction){
 //-------------------------------------------------
 enAction kickTheBall(int robotAction) {
   
-  Serial.println("Kick the ball");
+  //Serial.println("Kick the ball");
   stopMotors();
   return enActionFindGoal;
 
