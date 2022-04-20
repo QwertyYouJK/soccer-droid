@@ -1,3 +1,4 @@
+// ATTACK MODE
 // ####################################################################################
 // Arduino Code
 // 
@@ -199,26 +200,6 @@ enAction kickTheBall(int robotAction) {
   }
   return enActionKickTheBall;
 }
-
-//-------------------------------------------------
-// Pull back
-//-------------------------------------------------
-enAction pullBack(int robotAction) {
-  
-  if (robotAction != enActionPullBack) {
-    timeLimit = millis() + 500;
-    runMotors(-255, -255);
-  }
-  if (millis() > timeLimit) {
-    stopMotors();
-    Serial.println("Pulled back");
-    return enActionNone;
-    
-  }
-  return enActionPullBack;
-
-}
-
 
 //-------------------------------------------------------------------------------------
 // Arduino setup()

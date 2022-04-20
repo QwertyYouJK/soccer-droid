@@ -1,3 +1,4 @@
+//DEFEND MODE
 //####################################################################################
 // Arduino Code
 // 
@@ -254,7 +255,7 @@ enAction gotoTheBall(int robotAction) {
   
     // Calculate the speeds of the left and right wheels
     // Screen is 300 wide, so this varies from -75 to +75
-    speedDifference = (ballX - 150) / 2;
+    speedDifference = ballX - 150;
     runMotors(180 + speedDifference, 180 - speedDifference);
     
   } else {
@@ -351,7 +352,7 @@ enAction turnAround(int robotAction){
 
   // First go back
   if (turnflag == 0) {
-    timeLimit = millis() + 300;
+    timeLimit = millis() + 250;
     runMotors(-255,-255);
     turnflag = 1;
   }
@@ -372,21 +373,13 @@ enAction turnAround(int robotAction){
     turnflag = 2;
   }
   
-  // If opponent's goal is at centre, stop turning
+  // If found the ball, stop turning
   if (locateBall()){
     stopMotors();
     turnflag = 0;
     return enActionNone;
-  } else if (locateoppGoal() && turnflag == 3) {
-    if ((goalX + goalWidth / 2 > 100) && (goalX + goalWidth / 2 < 200)) {
-      stopMotors();
-      turnflag = 0;
-      return enActionNone;
-    }
   }
 
-  
-  
   return enActionTurnAround;
 
 }
